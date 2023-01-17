@@ -1,0 +1,25 @@
+{% extends ' layouts/index.html' %}
+
+{% block content %}
+    <style type=text/css">
+            .products{
+                width: 80%;
+                margin-left: 10%;
+                display: flex;
+                justify-content: space-between;
+            }
+    </style>
+    <div class="products">
+        {% for product in products %}
+           <div class="card" style="width: 18rem;">
+                <img src="product.image" class="product-image">
+                <div class="card-body">
+                    <h5 class="product-title">{{product.title}}</h5>
+                    <h6 class="price">{{ product.price }}</h6>
+                    <h7 class="year">{{ product.year_of_release }}</h7>
+                    <a href="#" class="more">More</a>
+                 </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
