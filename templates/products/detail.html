@@ -1,0 +1,53 @@
+ {% extends ' layouts/index.html' %}
+
+ {% block content %}
+     <style type="text/css">
+        .product {
+            width:80%;
+            margin-left: 10%;
+
+        }
+        .dates {
+
+            display: flex;
+            justify-content: space-between;
+        }
+        .release {
+            margin-left: 10%;
+        }
+        .reviews {
+            margin-top: 20px;
+        }
+        .review {
+            background: #666666;
+            color: #1b1b1b;
+            padding: 10px;
+            margin-bottom: 20px;
+
+        }
+
+     </style>
+    <div class="product">
+        <h1>{{ product.title }}</h1>
+    </div>
+     <div class="release">
+         <h3>{{ product.year_of_release }}</h3>
+     </div>
+            <div class="product">
+                <h4>{{ product.price }}$</h4>
+                <h4>{{ product.description }}</h4>
+            </div>
+        <div class="dates">
+            <h6>{{ product.created_data }}</h6>
+        </div>
+     <div class="reviews">
+        {% for review in reviews %}
+            <div class="review">
+                <h6>{{ review.text }}</h6>
+                <p>{{ review.created_date }}</p>
+
+            </div>
+        {% endfor %}
+     </div>
+
+ {% endblock %}

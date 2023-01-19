@@ -9,3 +9,9 @@ class Product(models.Model):
     price = models.FloatField()
     year_of_release=models.IntegerField()
     created_data=models.DateField(auto_now_add=True)
+
+class Review(models.Model):
+    text=models.TextField()
+    created_date=models.DateField(auto_now_add=True)
+    product=models.ForeignKey(Product,on_delete=models.CASCADE)
+
