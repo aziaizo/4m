@@ -1,0 +1,31 @@
+{% extends ' layouts/index.html' %}
+
+
+{% block content %}
+    <style type="text/css">
+    .categories {
+        display: flex;
+        justify-content: space-between;
+        width: 20%;
+    }
+    .category_image {
+        width: 50%;
+    }
+
+    </style>
+
+
+    <div class="categories">
+        {% for category in categories  %}
+            <div class="category">
+            <img class="category_image" src="https://static.tildacdn.com/tild3961-3664-4465-b463-383036356137/85263.png">
+            <h4>
+                <a href="/products/?category_id={{ category.id }}">
+                    {{ category.title }} {{ category.products.count }}
+                </a>
+            </h4>
+            </div>
+
+        {% endfor %}
+    </div>
+{% endblock %}

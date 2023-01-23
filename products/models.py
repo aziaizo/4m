@@ -15,3 +15,7 @@ class Review(models.Model):
     created_date=models.DateField(auto_now_add=True)
     product=models.ForeignKey(Product,on_delete=models.CASCADE)
 
+class Category(models.Model):
+    title=models.CharField(max_length=80)
+    products=models.ManyToManyField(Product,blank=True)
+
