@@ -36,6 +36,7 @@
                     {% else %}
                         <img src="https://avatars.mds.yandex.net/i?id=8b87b542bf394cebe4b91ebd54bdf051c271379c-5145180-images-thumbs&n=13">
                     {% endif %}
+        <h5>{{ product.author.username }}</h5>
         <h1>{{ product.title }}</h1>
     </div>
      <div class="release">
@@ -48,16 +49,20 @@
         <div class="dates">
             <h6>{{ product.created_data }}</h6>
         </div>
-     <div class="create_review">
+     {% if not user.is_anonymous %}
+         <div class="create_review">
         <form action="/products/{{ product.id }}/" method="post">
             {% csrf_token %}
             {{ form.as_p }}
             <input type="submit" value="Add review">
         </form>
      </div>
+     {% endif %}
+
      <div class="reviews">
         {% for review in reviews %}
             <div class="review">
+                <h5>{{ review.author.username}}</h5>
                 <h6>{{ review.text }}</h6>
                 <p>{{ review.created_date }}</p>
 

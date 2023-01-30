@@ -18,14 +18,22 @@ from django.urls import path
 from products.views import main,products_view, product_detail_view,categories_view,create_post_view
 from Store.settings import MEDIA_ROOT,MEDIA_URL
 from django.conf.urls.static import static
+from users.views import login_view,logout_view,register_view
+
+
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', main),
     path('products/', products_view),
     path('products/<int:id>/', product_detail_view),
     path('categories/', categories_view),
-    path('products/create/',create_post_view)
-
+    path('products/create/',create_post_view),
+    #users
+    path('users/login/', login_view),
+    path('users/logout/', logout_view),
+    path('users/register/', register_view)
 
 ]
 

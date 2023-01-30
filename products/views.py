@@ -19,6 +19,7 @@ def products_view(request):
 
         context= {
             'products': products,
+            'user':request.user
 
 
         }
@@ -44,6 +45,7 @@ def product_detail_view(request,id):
 
     if form.is_valid():
         Review.objects.create(
+            author_id=request.user.id,
             product=product,
             text=form.cleaned_data.get('text')
         )
@@ -62,11 +64,14 @@ def categories_view(request):
         return render(request, 'categories/category.html', context=context)
 
 def create_post_view(request):
-    if request.method == 'GET':
+    if request.method == 'GET' and not request.user.is_anonymous:
         context = {
             'form':ProductCreateForm
         }
         return render(request,'products/create.html',context=context)
+    elif request.user.is_anonymous:
+        return redirect('/products')
+
 
     if request.method =='POST':
         form=ProductCreateForm(data=request.POST)
@@ -74,6 +79,7 @@ def create_post_view(request):
 
         if form.is_valid():
             Product.objects.create(
+                author_id=request.user.id,
                 title=form.cleaned_data.get('title'),
                 description=form.cleaned_data.get('description'),
                 price=form.cleaned_data.get('price'),
