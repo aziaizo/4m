@@ -7,8 +7,13 @@
 
 
 {% block content %}
+    <form action="/products" method="get">
+    <input type="text" name="search">
+    <input type="submit" value="Search">
+    </form>
 
     <div class="products">
+
         {% for product in products %}
            <div class="card" style="width: 28rem;">
                 <div class="card-body">
@@ -24,5 +29,12 @@
                  </div>
             </div>
         {% endfor %}
+    </div>
+    <div class="pages">
+    {% for page in max_page %}
+        <a href="/products/?page={{ page }}">
+        <button>{{ page }}</button>
+        </a>
+    {% endfor %}
     </div>
 {% endblock %}
