@@ -2,6 +2,7 @@ from django import forms
 
 
 class ProductCreateForm(forms.Form):
+    image=forms.FileField()
     title=forms.CharField(min_length=5)
     description=forms.CharField(widget=forms.Textarea)
     price=forms.FloatField()

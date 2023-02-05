@@ -2,51 +2,56 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate,logout,login
 from users.forms import LoginForm,RegisterForm
 from django.contrib.auth.models import User
+from django.views.generic import CreateView,RedirectView,TemplateView
 # Create your views here.
 
-def login_view(request):
-    if request.method == 'GET':
-        context = {
-            'form':LoginForm
-        }
-        return render(request, 'users/login.html', context=context)
+class LoginView(TemplateView):
 
-    if request.method == "POST":
-        data=request.POST
-        form=LoginForm(data=data)
+    def get(self,request,**kwargs):
+        context = {
+            'form': LoginForm
+        }
+        return render(request, self.template_name, context=context)
+
+    def post(self,request,*args,**kwargs):
+        data = request.POST
+        form = LoginForm(data=data)
 
         if form.is_valid():
-            user=authenticate(
+            user = authenticate(
                 username=form.cleaned_data.get('username'),
                 password=form.cleaned_data.get('password'))
 
             if user:
-                login(request,user)
+                login(request, user)
                 return redirect('/products')
             else:
-                form.add_error('username','try again')
+                form.add_error('username', 'try again')
 
         return render(request, 'users/login.html', context={
-            'form':form
+            'form': form
         })
 
-def logout_view(request):
-    logout(request)
-    return redirect('/products')
+class LogoutView(RedirectView):
+    def get(self,request,*args,**kwargs):
+     logout(request)
+     return redirect('/products')
 
 
-def register_view(request):
-    if request.method == 'GET':
+
+class RegisterView(CreateView):
+
+    def get(self,request,**kwargs):
         context = {
-            'form':RegisterForm
+            'form': RegisterForm
         }
-        return render(request, 'users/register.html',context=context)
+        return render(request, self.template_name, context=context)
 
-    if request.method == 'POST':
+    def post(self, request, *args, **kwargs):
         form = RegisterForm(data=request.POST)
 
         if form.is_valid():
-            password1 , password2 = form.cleaned_data.get('password1'), form.cleaned_data.get('password2')
+            password1, password2 = form.cleaned_data.get('password1'), form.cleaned_data.get('password2')
             if password1 == password2:
                 User.objects.create_user(
                     username=form.cleaned_data.get('username'),
@@ -56,7 +61,7 @@ def register_view(request):
             else:
                 form.add_error('password1', 'try again')
 
-        return render(request, 'users/register.html', context={
-            'form':form
+        return render(request, self.template_name, context={
+            'form': form
         })
 
